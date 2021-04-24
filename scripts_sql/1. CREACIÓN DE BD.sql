@@ -1,0 +1,6 @@
+USE MASTER
+DROP DATABASE IF EXISTS licencias_ 
+GO
+
+CREATE DATABASE licencias_mpt
+GO

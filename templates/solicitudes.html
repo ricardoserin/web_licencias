@@ -1,0 +1,100 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="jumbotron">
+  <div class="row m-2 row">
+    <form class="row g-6" action="{{ url_for('solicitudesFilters') }}" method="POST">
+      <div class="form-group row filters">
+        <label class="col-1 col-form-label">Filtros</label>
+        <div class="col-3">
+          <label class="col-form-label">Año solicitud</label>
+          <select class="form-select" id="ano" name="ano" aria-label="Default select example">
+            <option value="">TODOS</option>
+            {% for value in anos %}
+              {% if ano|lower == value.Anio|lower %}
+                <option selected value="{{value.Anio}}">
+                  {{value.Anio}}
+                </option>
+              {% else %}
+                <option value="{{value.Anio}}">
+                  {{value.Anio}}
+                </option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-3">
+          <label class="col-form-label">Tipo</label>
+          <select class="form-select" id="tipo" name="tipo" aria-label="Default select example">
+            <option value="">TODOS</option>
+            <option {% if tipo=='NUEVA LICENCIA' %} selected="selected"{% endif %} value="NUEVA LICENCIA">NUEVA LICENCIA</option>
+            <option {% if tipo=='REVALIDACIÓN' %} selected="selected"{% endif %}  value="REVALIDACIÓN">REVALIDACIÓN</option>
+            <option {% if tipo=='DUPLICADO' %} selected="selected"{% endif %}  value="DUPLICADO">DUPLICADO</option>
+          </select>
+        </div>
+        <div class="col-3">
+          <label class="col-form-label">Estado de solicitud</label>
+          <select class="form-select" id="estado" name="estado"  aria-label="Default select example">
+            <option value="" selected>TODOS</option>
+            <option {% if estado=='Aprobado' %} selected="selected"{% endif %} value="Aprobado">APROBADO</option>
+            <option {% if estado=='Rechazado' %} selected="selected"{% endif %} value="Rechazado">RECHAZADO</option>
+            <option {% if estado=='Pendiente' %} selected="selected"{% endif %} value="Pendiente">PENDIENTE</option>
+          </select>
+        </div>
+        <div class="col-2">
+          <button type="submit" class="btn btn-success">Aplicar filtros</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <table id="table_id" class="table table-dark">
+    <thead>
+      <tr>
+        <th scope="col">Fecha solicitud</th>
+        <th scope="col">DNI</th>
+        <th scope="col">Persona</th>
+        <th scope="col">Celular</th>
+        <th scope="col">Tipo</th>
+        <th scope="col">Estado</th>
+        <th scope="col">Opciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if solicitudes|length > 0%}
+        {% for value in solicitudes %}
+          <tr>
+            <th scope="row">{{value.FechaSolicitud}}</th>
+            <td>{{value.DNI}}</td>
+            <td>{{value.Persona}}</td>
+            <td>{{value.Celular}}</td>
+            <td>{{value.Tipo}}</td>
+            <td>{{value.Estado}}</td>
+            <td>
+              {% if value.Estado == 'Pendiente' and value.examen == 0 %}
+                <form action="{{ url_for('programarExamen') }}" method="POST" target="horario">
+                  <input type="text" name="idPersona" id="idPersona" class="hidden" value="{{value.idPersona}}">
+                  <input type="text" name="idSolicitud" id="idSolicitud" class="hidden" value="{{value.idSolicitud}}">
+                  <input class="btn btn-info" type="submit" value="Programar examen">
+                </form>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      {% else %}
+
+      {% endif %}
+    </tbody>
+  </table>
+  <iframe frameborder="0" width="100%" name="horario"></iframe>
+  <script>
+    $('#table_id').DataTable({
+        responsive:true,
+        autowitdh: false
+    });
+    </script>
+
+</div>
+
+
+{% endblock%}

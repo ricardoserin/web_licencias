@@ -1,0 +1,103 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="jumbotron">
+  <div class="row m-2 row">
+    <form class="row g-6" action="{{ url_for('consultarLicencia') }}" method="POST">
+      <div class="form-group row filters">
+        <div class="col-9">
+          <label class="col-form-label">Buscar Licencias</label>
+          <input type="text" class="form-control" id="parametro" name="parametro" placeholder="Ingrese Número de DNI o Número de Licencia">
+        </div>
+        <div class="col-3 mx-auto">
+          <button type="submit" class="btn btn-success">Consultar licencia</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  {% if licencia|length > 0 %}
+    {% for lic in licencia %}
+      <div class="row m-6">
+        <div class="col-8 licencia-container">
+          <div class="licencia">
+            <div class="licencia__header">
+              <img src="{{ url_for('static', filename='img/escudo-peru.svg') }}" alt="" class="licencia__header-escudo">
+              <div class="licencia__header-titles">
+                <p>REPÚBLICA DEL PERÚ</p>
+                <p>MUNICIPALIDAD PROVINCIAL DE TRUJILLO</p>
+                <p>GERENCIA DE TRANSPORTE, TRÁNSITO Y SEGURIDAD VIAL</p>
+                <p>SUB GERENCIA DE TRANSPORTE</p>
+                <span class="licencia__header-title--red">LICENCIA DE CONDUCIDR DE VEHÍCULOS MENORES</span> 
+              </div>
+              <img src="{{ url_for('static', filename='img/escudo-trujillo.svg') }}" alt="" class="licencia__header-escudo">
+            </div>
+            <div class="licencia__content">
+              <div class="licencia__info-container">
+                <div class="licencia__info">
+                  <span class="licencia__info-title">Apellidos</span>
+                  <span class="licencia__info-text">{{lic.apPaterno}} {{lic.apMaterno}}</span>
+                </div>
+                <div class="licencia__info">
+                  <span class="licencia__info-title">Nombres</span>
+                  <span class="licencia__info-text">{{lic.nombres}}</span>
+                </div>
+                <div class="licencia__info">
+                  <span class="licencia__info-title">N° de licencia</span>
+                  <span class="licencia__info-text">{{lic.numero}}</span>
+                </div>
+                <div class="row">
+                  <div class="licencia__info col-4">
+                    <span class="licencia__info-title">Clase</span>
+                    <span class="licencia__info-text">{{lic.clase}}</span>
+                  </div>
+                  <div class="licencia__info col-4">
+                    <span class="licencia__info-title">Categoría</span>
+                    <span class="licencia__info-text">{{lic.categoria}}</span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="licencia__info col-4">
+                    <span class="licencia__info-title">Fecha de expedición</span>
+                    <span class="licencia__info-text">{{lic.fechaExp}}</span>
+                  </div>
+                  <div class="licencia__info col-4">
+                    <span class="licencia__info-title">Fecha de revalidación</span>
+                    <span class="licencia__info-text">{{lic.fechaRev}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="licencia__photo-container">
+                <img src="{{lic.photo}}" alt="" class="licencia__photo">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-4 px-4">
+          <h5>Estado de licencia:</h5>
+          <div class="vigencia {{lic.estado}}">
+            {{lic.estado}}
+          </div>
+          <br>
+          <br>
+          {% if lic.estado == 'VIGENTE' %}
+            <div>
+              <h5>Valido hasta:</h5>
+              {{lic.fechaRev}}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+      {% if error=='true' %}
+        <div class="alert alert-danger" role="alert">
+          No se encontraron resultados.
+        </div>
+      {% endif %}
+  {% endif %}
+
+</div>
+
+
+{% endblock%}

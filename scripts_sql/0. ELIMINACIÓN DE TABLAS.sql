@@ -1,0 +1,15 @@
+--ELIMINACIÓN DE TABLAS
+drop TABLE programacion_exr
+drop TABLE horario_exr
+drop TABLE detalle_solicitud
+drop TABLE tipo_requisito 
+drop TABLE detalle_licencia_restriccion
+drop TABLE licencia 
+drop TABLE solicitud 
+drop TABLE tipo_solicitud
+drop TABLE restriccion
+drop TABLE categoria 
+drop TABLE clase
+drop TABLE administrativo
+drop TABLE persona
+drop TABLE nacionalidad

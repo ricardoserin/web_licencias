@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="jumbotron">
+  <div class="container px-4">
+    <h3>Bienvenidos al sistema de licencias de la Municipalidad Provincial de Trujillo</h3>
+    <div class="row gx-5 center">
+      <div class=" p-3 border bg-light" style="width: 18rem;">
+        <img src="{{ url_for('static', filename='img/programar.jpg') }}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Gestión de solicitudes</h5>
+          <p class="card-text">Consulta de solicitudes y programación de examen de reglas.</p>
+          <a href="{{url_for('solicitudes')}}" class="btn btn-primary">Ingresar</a>
+        </div>
+      </div>
+      <div class=" p-3 border bg-light" style="width: 18rem;">
+        <img src="{{ url_for('static', filename='img/licencia.jpg') }}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Consulta de licencias</h5>
+          <p class="card-text">Consulta la vigencia de una licencia de conducir</p>
+          <a href="{{url_for('licencias')}}" class="btn btn-primary">Ingresar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock%}
